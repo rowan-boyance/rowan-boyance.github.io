@@ -14,16 +14,76 @@ The CSS ids you will work with are:
 ///////////////////////////////////////////////////////////////////////
 
 // TODO 2: Implement bubbleSort
+async function bubbleSort(array) {
+    var n = array.length;
 
+    for (var i = 0; i < n - 1; i++) {
+        for (var j = n - 1; j > i; j--) {
+            if (array[j].value < array[j - 1].value) {
+                // Swap elements if necessary
+                swap(array, j, j - 1);
 
-// TODO 3: Implement quickSort
+                // Update counter and visualize sorting
+                updateCounter(bubbleCounter);
+                await sleep();
+            }
+        }
+    }
+}  
 
+// TODO 3: Create the quickSort Function
+async function quickSort(array, left, right) {
+    // 3b-1) Check if quickSort should even run
+    if (right - left > 0) {
+        // 3b-2) Call and use the partition function
+        var index = await partition(array, left, right);
+
+        // 3b-3) Call quicksort for the left of the pivot index
+        if (left < index - 1) {
+            await quickSort(array, left, index - 1);
+        }
+
+        // 3b-4) Call quicksort for the right of the pivot index
+        if (index < right) {
+            await quickSort(array, index, right);
+        }
+    }
+}
 
 // TODOs 4 & 5: Implement partition
+async function partition(array, left, right) {
+    const pivot = array[Math.floor((right + left) / 2)].value;
 
+    while (left < right) {
+        while (array[left].value < pivot) {
+            left++;
+        }
+
+        
+        while (array[right].value > pivot) {
+            right--;
+        }
+
+       
+        if (left < right) {
+            swap(array, left, right);
+            updateCounter(quickCounter);
+            await sleep();
+        }
+    }
+
+    return left + 1;
+}
 
 // TODO 1: Implement swap
+function swap(array, i, j) {
+    var temp = array[i];
+    
+    array[i] = array[j];
+    array[j] = temp;
 
+    drawSwap(array, i, j);
+}
 
 ///////////////////////////////////////////////////////////////////////
 /////////////////////// YOUR WORK GOES ABOVE HERE /////////////////////
